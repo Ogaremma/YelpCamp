@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate') -%>
+    <h1>
+        <%= campground.title %>
+    </h1>
+    <h2>
+        <%= campground.location %>
+    </h2>
+    <img src="https://picsum.photos/600/400?rand=<%= Date.now() + Math.floor(Math.random()*1000000) %>"
+        alt="<%= campground.title %>">
+    <p>
+        <%= campground.description %>
+    </p>
+    <p>Price per night: $<%= campground.price %>
+    </p>
+    <footer>
+        <button onclick="window.location.href='/campgrounds/new'">Add New Campground</button>
+        <button onclick="window.location.href='/campgrounds/<%= campground._id %>/update'">Update Campground</button>
+        <form action="/campgrounds/<%= campground._id %>?_method=delete" method="post">
+            <button type="submit">Delete Campground</button>
+        </form>
+        <button onclick="window.location.href='/campgrounds'">Back to Campgrounds</button>
+    </footer>
