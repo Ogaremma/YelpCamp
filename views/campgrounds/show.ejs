@@ -5,8 +5,7 @@
     <h2>
         <%= campground.location %>
     </h2>
-    <img src="https://picsum.photos/600/400?rand=<%= Date.now() + Math.floor(Math.random()*1000000) %>"
-        alt="<%= campground.title %>">
+    <img src="<%= campground.image %>" alt="<%= campground.title %>">
     <p>
         <%= campground.description %>
     </p>
