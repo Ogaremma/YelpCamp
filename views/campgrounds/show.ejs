@@ -1,42 +1,45 @@
 <% layout('layouts/boilerplate') -%>
     <div class="row">
-        <div class="col-6 offset-3">
-            <div class="card" style="width: 37rem;">
+        <div class="col-6 offset-3" bg-dark>
+            <div class="card bg-dark text-light" style="width: 50rem;">
                 <img src="<%= campground.image %>" alt="<%= campground.title %>">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p> class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
+                    <h5 class="card-title">
+                        <%= campground.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= campground.description %>
+                    </p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item bg-dark text-light">
+                        <%= campground.location %>
+                    </li>
+                    <li class="list-group-item bg-dark text-light">$<%= campground.price %>/Night
+                    </li>
+                    <li class="list-group-item bg-dark text-light">A third item</li>
                 </ul>
                 <div class="card-body">
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='/campgrounds/new'">Add
+                        New
+                        Campground</button>
+                    <button type="button" class="btn btn-info"
+                        onclick="window.location.href='/campgrounds/<%= campground._id %>/update'">Update
+                        Campground</button>
+                    <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=delete" method="post">
+                        <button type="button" class="btn btn-danger" type="submit">Delete Campground</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='/campgrounds'">Back
+                        to Campgrounds</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <h1>
-        <%= campground.title %>
-    </h1>
-    <h2>
-        <%= campground.location %>
-    </h2>
-    <p>
-        <%= campground.description %>
-    </p>
-    <p>Price per night: $<%= campground.price %>
-    </p>
+
+
     <footer>
-        <button onclick="window.location.href='/campgrounds/new'">Add New Campground</button>
-        <button onclick="window.location.href='/campgrounds/<%= campground._id %>/update'">Update Campground</button>
-        <form action="/campgrounds/<%= campground._id %>?_method=delete" method="post">
-            <button type="submit">Delete Campground</button>
-        </form>
-        <button onclick="window.location.href='/campgrounds'">Back to Campgrounds</button>
+
+
+
     </footer>
