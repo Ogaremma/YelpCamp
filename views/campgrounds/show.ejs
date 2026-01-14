@@ -26,8 +26,8 @@
                     <button type="button" class="btn btn-info"
                         onclick="window.location.href='/campgrounds/<%= campground._id %>/update'">Update
                         Campground</button>
-                    <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=delete" method="post">
-                        <button type="button" class="btn btn-danger" type="submit">Delete Campground</button>
+                    <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="post">
+                        <button class="btn btn-danger" type="submit">Delete Campground</button>
                     </form>
                     <button type="button" class="btn btn-secondary" onclick="window.location.href='/campgrounds'">Back
                         to Campgrounds</button>
