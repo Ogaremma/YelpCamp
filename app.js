@@ -53,8 +53,12 @@ app.get('/campgrounds/:id', async (req, res) => {
 
 
 app.get('/campgrounds/:id/update', async (req, res) => {
-  const campground = await Campground.findById(req.params.id);
-  res.render('campgrounds/update', { campground });
+  try {
+    const campground = await Campground.findById(req.params.id);
+    res.render('campgrounds/update', { campground });
+  } catch (e) {
+    next(e);
+  }
 })
 
 app.put('/campgrounds/:id', async (req, res) => {
@@ -70,7 +74,8 @@ app.delete('/campgrounds/:id', async (req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  res.send('Oh No! Something Went Wrong!');
+  s
+  res.send('Something Went Wrong!');
 });
 
 // app.get('/makecampground', async (req, res) => {
