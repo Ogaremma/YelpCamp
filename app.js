@@ -51,7 +51,7 @@ app.get('/campgrounds/:id', catchAsync(async (req, res, next) => {
 
   if (!campground) {
     // campground not found → throw 404 error
-    return next(new ExpressError('Not Found', 404));
+    return next(new ExpressError('Page Not Found', 404));
   }
 
   res.render('campgrounds/show', { campground });
@@ -84,8 +84,9 @@ app.all(/(.*)/, (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = 'Something went wrong!' } = err;
-  res.status(statusCode).send(message);
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = 'Something went wrong!';
+  res.status(statusCode).render('error', { err });
 });
 
 // app.get('/makecampground', async (req, res) => {
