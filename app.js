@@ -73,7 +73,7 @@ app.get('/campgrounds/:id', catchAsync(async (req, res, next) => {
   if (!campground) {
     // campground not found → throw 404 error
     return next(new ExpressError('Page Not Found', 404));
-  } ss
+  }
   res.render('campgrounds/show', { campground });
 }));
 
