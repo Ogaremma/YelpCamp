@@ -68,14 +68,12 @@ app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) =
 
 // this is the route for the show page
 app.get('/campgrounds/:id', catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const campground = await Campground.findById(id);
-
+  const campground = await Campground.findById(req.params.id).populate('reviews');
+  console.log(campground)
   if (!campground) {
     // campground not found → throw 404 error
     return next(new ExpressError('Page Not Found', 404));
-  }
-
+  } ss
   res.render('campgrounds/show', { campground });
 }));
 
