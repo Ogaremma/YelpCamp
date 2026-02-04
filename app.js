@@ -10,7 +10,6 @@ const methodOverride = require('method-override');
 
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/review');
-const e = require('express');
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
@@ -35,13 +34,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 const sessionConfig = {
   secret: 'thisshouldbeabettersecret',
   resave: false,
-  saveUnintialized: true,
+  saveUninitialized: true,   // <-- fix spelling
   cookie: {
     httpOnly: true,
     expire: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }
+
 app.use(session(sessionConfig));
 app.use(flash());
 
