@@ -26,19 +26,22 @@
                         </li>
                         <li class="list-group-item bg-dark text-light">$<%= campground.price %>/Night</li>
                     </ul>
+                    <% if (currentUser && campground.author.equals(currentUser._id)) {%>
+                        <div class="card-body">
+                            <button class="btn btn-primary" onclick="window.location.href='/campgrounds/new'">Add
+                                New</button>
+                            <button class="btn btn-info"
+                                onclick="window.location.href='/campgrounds/<%= campground._id %>/update'">Update</button>
 
-                    <div class="card-body">
-                        <button class="btn btn-primary" onclick="window.location.href='/campgrounds/new'">Add
-                            New</button>
-                        <button class="btn btn-info"
-                            onclick="window.location.href='/campgrounds/<%= campground._id %>/update'">Update</button>
+                            <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE"
+                                method="POST">
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
 
-                        <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                        </form>
-
-                        <button class="btn btn-secondary" onclick="window.location.href='/campgrounds'">Back</button>
-                    </div>
+                            <button class="btn btn-secondary"
+                                onclick="window.location.href='/campgrounds'">Back</button>
+                        </div>
+                        <% } %>
                 </div>
             </div>
 
