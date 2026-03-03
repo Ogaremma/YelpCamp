@@ -50,25 +50,37 @@ router.get('/:id', catchAsync(async (req, res, next) => {
 router.get('/:id/update', isLoggedIn, catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
-
     if (!campground) {
         req.flash('error', 'Campground Not Found');
         return next(new ExpressError('Campground Not Found', 404));
         return res.redirect('/campgrounds');
     }
-
+    if (!campground.author.equals(req.user._id)) {
+        req.flash('You are not authorized');
+        return res.redirect(`/campgrounds/${id}`);
+    }
     res.render('campgrounds/update', { campground });
 }));
 
 router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res, next) => {
     const { id } = req.params;
-    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
+    const campground = await Campground.findById(id);
+    if (!campground.author.equals(req.user._id)) {
+        req.flash('You are not authorized');
+        return res.redirect(`/campgrounds/${id}`);
+    }
+    //const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
     req.flash('success', 'Successfully updated campground!');
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
 router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
+    const campground = await Campground.findById(id);
+    if (!campground.author.equals(req.user._id)) {
+        req.flash('You are not authorized');
+        return res.redirect(`/campgrounds/${id}`);
+    }
     await Campground.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted campground!');
     res.redirect('/campgrounds');
