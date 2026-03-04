@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../Utils/catchAsync');
 const Campground = require('../models/campground');
-const { campgroundSchema } = require('../schema');
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
+
 
 
 
@@ -27,8 +27,13 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res, nex
 
 // this is the route for the show page
 router.get('/:id', catchAsync(async (req, res, next) => {
-    const campground = await Campground.findById(req.params.id).populate('reviews').populate('author');
-    console.log(campground)
+    const campground = await Campground.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
+    console.log(campground);
     if (!campground) {
         // campground not found → throw 404 error
         req.flash('error', 'Campground Not Found');
