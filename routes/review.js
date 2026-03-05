@@ -8,9 +8,8 @@ const Review = require('../models/review');
 const { validateReview, isLoggedIn, isReviewAuthor } = require('../middleware');
 
 
+router.post('/', isLoggedIn, validateReview, catchAsync(reviews.createReview));
 
-router.post('/:id/reviews', isLoggedIn, validateReview, catchAsync(reviews.createReview));
-
-router.delete('/:id/reviews/:reviewId', isLoggedIn, isReviewAuthor, catchAsync(reviews.destroyReview));
+router.delete('/:id/reviewId', isLoggedIn, isReviewAuthor, catchAsync(reviews.destroyReview));
 
 module.exports = router;
