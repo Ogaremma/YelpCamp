@@ -81,6 +81,7 @@ app.all(/(.*)/, (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log("ACTUAL ERROR", err);
   const { statusCode = 500 } = err;
   if (!err.message) err.message = 'Something went wrong!';
   res.status(statusCode).render('error', { err });
