@@ -14,5 +14,5 @@ const storage = new CloudinaryStorage({
     }
 });
 console.log("Secret Loaded:",
-    !!process.env.CLOUDINARY_SECRET)
+    !!process.env.CLOUDINARY_SECRET);
 module.exports = { cloudinary, storage };
