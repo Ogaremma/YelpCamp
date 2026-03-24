@@ -8,11 +8,17 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-    cloudinary, params: {
+    cloudinary,
+    params: {
         folder: 'Yelpcamp',
         allowedFormats: ['jpeg', 'png', 'jpg']
     }
 });
+
 console.log("Secret Loaded:",
     !!process.env.CLOUDINARY_SECRET);
-module.exports = { cloudinary, storage };
+
+module.exports = {
+    cloudinary,
+    storage
+};
