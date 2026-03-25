@@ -31,9 +31,8 @@ module.exports.showCampground = async (req, res, next) => {
     }).populate('author');
     console.log(campground);
     if (!campground) {
-        // campground not found → throw 404 error
+        // campground not found
         req.flash('error', 'Campground Not Found');
-        return next(new ExpressError('Campground Not Found', 404));
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/show', { campground });
@@ -44,7 +43,6 @@ module.exports.renderUpdateForm = async (req, res, next) => {
     const campground = await Campground.findById(id);
     if (!campground) {
         req.flash('error', 'Campground Not Found');
-        return next(new ExpressError('Campground Not Found', 404));
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/update', { campground });
@@ -54,7 +52,7 @@ module.exports.updateCampground = async (req, res, next) => {
     const { id } = req.params;
     console.log(req.body);
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
-    campground.images = req.files.map(f = ({ url: f.path, filename: f.filename }))
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     campground.images.push(...imgs);
     await campground.save();
     if (req.body.deleteImages) {
