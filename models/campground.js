@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require('./review');
+const maptilerClient = require("@maptiler/client");
+
+maptilerClient.config.apiKey = process.env.MAPTILER_KEY;
 
 // https://res.cloudinary.com/dgz77yqem/image/upload/v1774458201/Yelpcamp/r6es7b0ezdmjpxckcedy.png
 
