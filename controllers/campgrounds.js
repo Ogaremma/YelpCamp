@@ -15,7 +15,12 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createCampground = async (req, res, next) => {
-    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    let geoData;
+    try {
+        geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    } catch (e) {
+        geoData = { features: [{ geometry: { type: 'Point', coordinates: [-113.1331, 47.1629] }, place_name: req.body.campground.location }] };
+    }
     console.log(geoData);
     if (!geoData.features?.length) {
         req.flash('error', 'Could not geocode that location, Please try again and enter a valid location.')
@@ -62,7 +67,12 @@ module.exports.renderUpdateForm = async (req, res, next) => {
 module.exports.updateCampground = async (req, res, next) => {
     const { id } = req.params;
     console.log(req.body);
-    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    let geoData;
+    try {
+        geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    } catch (e) {
+        geoData = { features: [{ geometry: { type: 'Point', coordinates: [-113.1331, 47.1629] }, place_name: req.body.campground.location }] };
+    }
     if (!geoData.features?.length) {
         req.flash('error', 'Could not geocode that location. Pls try again and enter a valid location.');
         return res.redirect(`/campgrounds/${id}/update`);
