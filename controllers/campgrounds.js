@@ -15,25 +15,21 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createCampground = async (req, res, next) => {
-    let geoData;
-    try {
-        geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
-    } catch (e) {
-        geoData = { features: [{ geometry: { type: 'Point', coordinates: [-113.1331, 47.1629] }, place_name: req.body.campground.location }] };
-    }
-    console.log(geoData);
+    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    // console.log(geoData);
     if (!geoData.features?.length) {
         req.flash('error', 'Could not geocode that location, Please try again and enter a valid location.')
         return res.redirect('/campgrounds/new');
     }
     const campground = new Campground(req.body.campground);
     campground.geometry = geoData.features[0].geometry;
-    campground.location = geoData.features[0].place_name;
+    // campground.location = geoData.features[0].place_name;
+
     // This line "maps" the files from Multer to your Schema format:
     campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     campground.author = req.user._id;
     await campground.save();
-    console.log(campground); // To see the result in terminal
+    console.log(campground);
     req.flash('success', 'Successfully made a new campground!');
     res.redirect(`/campgrounds/${campground._id}`);
 }
@@ -66,20 +62,15 @@ module.exports.renderUpdateForm = async (req, res, next) => {
 
 module.exports.updateCampground = async (req, res, next) => {
     const { id } = req.params;
-    console.log(req.body);
-    let geoData;
-    try {
-        geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
-    } catch (e) {
-        geoData = { features: [{ geometry: { type: 'Point', coordinates: [-113.1331, 47.1629] }, place_name: req.body.campground.location }] };
-    }
+    // console.log(req.body);
+    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
     if (!geoData.features?.length) {
         req.flash('error', 'Could not geocode that location. Pls try again and enter a valid location.');
         return res.redirect(`/campgrounds/${id}/update`);
     }
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
     campground.geometry = geoData.features[0].geometry;
-    campground.location = geoData.features[0].place_name;
+    // campground.location = geoData.features[0].place_name;
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     campground.images.push(...imgs);
     await campground.save();

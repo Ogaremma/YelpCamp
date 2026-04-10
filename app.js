@@ -77,11 +77,12 @@ app.get('/', (req, res) => {
 });
 
 app.all(/(.*)/, (req, res, next) => {
+  console.log('404 triggered for URL:', req.method, req.originalUrl);
   next(new ExpressError('Page Not Found', 404));
 });
 
 app.use((err, req, res, next) => {
-  console.log("ACTUAL ERROR", err);
+  console.log("ACTUAL ERROR for", req.method, req.originalUrl, "->", err);
   const { statusCode = 500 } = err;
   if (!err.message) err.message = 'Something went wrong!';
   res.status(statusCode).render('error', { err });
